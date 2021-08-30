@@ -1,9 +1,13 @@
 import requests
 from requests.auth import HTTPBasicAuth
-from creds import client_secret, client_id
+# from creds import client_secret, client_id
 from pprint import pprint
 
 from flask import Flask, request, render_template, redirect
+import os
+
+client_id = os.environ.get('CLIENT_ID')
+client_secret = os.environ.get('CLIENT_SECRET')
 
 app = Flask(__name__)
 endpoint = "https://www.udemy.com/api-2.0/"
