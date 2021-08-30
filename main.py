@@ -23,7 +23,6 @@ def search_term(term):
         for course in page['results']:
             for instructor in course['visible_instructors']:
                 if instructor['title'] == NAME:
-                    print(rank)
                     return rank
                 rank += 1
     return -1
