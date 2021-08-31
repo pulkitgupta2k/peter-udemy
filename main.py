@@ -6,26 +6,29 @@ from pprint import pprint
 from flask import Flask, request, render_template, redirect
 import os
 
-client_id = os.environ.get('CLIENT_ID')
-client_secret = os.environ.get('CLIENT_SECRET')
+in_client_id = os.environ.get('IN_CLIENT_ID')
+in_client_secret = os.environ.get('IN_CLIENT_SECRET')
+
+sa_client_id = os.environ.get('SA_CLIENT_ID')
+sa_client_secret = os.environ.get('SA_CLIENT_SECRET')
 
 app = Flask(__name__)
 endpoint = "https://www.udemy.com/api-2.0/"
 NAME = "Peter Alkema"
 
 
-def get_page(link):
+def get_page(link, client_id, client_secret):
     response = requests.get(link, auth=HTTPBasicAuth(client_id, client_secret))
     return response.json()
 
 
-def search_term(term):
+def search_term(term, client_id, client_secret):
     link_1 = endpoint + "courses/?page="
     link_2 = "&search=" + term
     rank = 1
     for page in range(1, 11):
         link = link_1 + str(page) + link_2
-        page = get_page(link)
+        page = get_page(link, in_client_id, in_client_secret)
         for course in page['results']:
             course_url = "https://www.udemy.com" + course['url']
             image = course["image_240x135"]
@@ -34,6 +37,7 @@ def search_term(term):
                 if instructor['title'] == NAME:
                     return [rank, course_url, image, course_name]
                 rank += 1
+    
     return [999, "#", "#", "#"]
 
 
@@ -41,9 +45,10 @@ def search_terms(terms):
     terms = [x.strip() for x in terms.split("\n")]
     res = []
     for term in terms:
-        result = search_term(term)
+        result_in = search_term(term, in_client_id, in_client_secret)
+        result_sa = search_term(term, sa_client_id, sa_client_secret)
         res.append(
-            {"name": term, "rank": result[0], "course_url": result[1], "image": result[2], "course_name": result[3]})
+            {"name": term, "rank_sa": result_in[0], "rank_in" : result_sa[0], "course_url": result_in[1], "image": result_in[2], "course_name": result_in[3]})
     return res
 
 

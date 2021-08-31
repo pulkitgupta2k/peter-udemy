@@ -29,7 +29,8 @@
                         <thead>
                             <tr class="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
                                 <th class="py-3 px-6 text-left">Term</th>
-                                <th class="py-3 px-6 text-left">Rank</th>
+                                <th class="py-3 px-6 text-left">Rank South Africa</th>
+                                <th class="py-3 px-6 text-left">Rank India</th>
                                 <th class="py-3 px-6 text-left">Course</th>
                             </tr>
                         </thead>
@@ -46,7 +47,13 @@
                                 <td class="py-3 px-6 text-left">
                                     <div class="flex items-center">
 
-                                        <span>{{ term['rank'] }}</span>
+                                        <span>{{ term['rank_sa'] }}</span>
+                                    </div>
+                                </td>
+                                <td class="py-3 px-6 text-left">
+                                    <div class="flex items-center">
+
+                                        <span>{{ term['rank_in'] }}</span>
                                     </div>
                                 </td>
                                 <td class="py-3 px-6 text-left">
