@@ -1,10 +1,13 @@
+from types import resolve_bases
 import requests
 from requests.auth import HTTPBasicAuth
-# from creds import client_secret, client_id
-from pprint import pprint
+# from creds import *
+import time
 
 from flask import Flask, request, render_template, redirect
 import os
+
+# from threading import Thread
 
 in_client_id = os.environ.get('IN_CLIENT_ID')
 in_client_secret = os.environ.get('IN_CLIENT_SECRET')
@@ -36,7 +39,7 @@ def search_term(term, client_id, client_secret):
             for instructor in course['visible_instructors']:
                 if instructor['title'] == NAME:
                     return [rank, course_url, image, course_name]
-                rank += 1
+            rank += 1
     
     return [999, "#", "#", "#"]
 
@@ -51,6 +54,11 @@ def search_terms(terms):
             {"name": term, "rank_sa": result_in[0], "rank_in" : result_sa[0], "course_url": result_in[1], "image": result_in[2], "course_name": result_in[3]})
     return res
 
+# def func():
+#     print(".")
+#     time.sleep(10)
+#     print("..")
+
 
 @app.route('/', methods=["GET", "POST"])
 def index():
@@ -59,6 +67,7 @@ def index():
     if request.method == "POST":
         resp = request.form.to_dict()
         terms = search_terms(resp['term'])
+        # Thread(target=func).start()
         return render_template("index.html", terms=terms)
 
 
