@@ -1,4 +1,3 @@
-from types import resolve_bases
 import requests
 from requests.auth import HTTPBasicAuth
 # from creds import *
