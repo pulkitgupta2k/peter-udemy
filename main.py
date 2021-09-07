@@ -47,10 +47,13 @@ def search_terms(terms):
     terms = [x.strip() for x in terms.split("\n")]
     res = []
     for term in terms:
-        result_in = search_term(term, in_client_id, in_client_secret)
-        result_sa = search_term(term, sa_client_id, sa_client_secret)
-        res.append(
-            {"name": term, "rank_sa": result_in[0], "rank_in" : result_sa[0], "course_url": result_in[1], "image": result_in[2], "course_name": result_in[3]})
+        try:
+            result_in = search_term(term, in_client_id, in_client_secret)
+            result_sa = search_term(term, sa_client_id, sa_client_secret)
+            res.append(
+                {"name": term, "rank_sa": result_in[0], "rank_in" : result_sa[0], "course_url": result_in[1], "image": result_in[2], "course_name": result_in[3]})
+        except:
+            pass
     return res
 
 # def func():
